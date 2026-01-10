@@ -9,7 +9,6 @@ function NoteForm({ onAddNote }) {
     e.preventDefault();
 
     if (!title.trim()) {
-      setError("Title is required");
       return;
     }
 
@@ -39,13 +38,12 @@ function NoteForm({ onAddNote }) {
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
-            if (error) setError("");
           }}
           style={{
             width: '100%',
             padding: '14px 18px',
             fontSize: '1rem',
-            border: error ? '2px solid #e74c3c' : '2px solid #e0e6ed',
+            border: !title.trim() ? '2px solid #e74c3c' : '2px solid #e0e6ed',
             borderRadius: '8px',
             outline: 'none',
             transition: 'all 0.3s ease',
@@ -53,8 +51,25 @@ function NoteForm({ onAddNote }) {
             boxSizing: 'border-box'
           }}
           onFocus={(e) => e.target.style.borderColor = '#3498db'}
-          onBlur={(e) => e.target.style.borderColor = error ? '#e74c3c' : '#e0e6ed'}
+          onBlur={(e) => e.target.style.borderColor = !title.trim() ? '#e74c3c' : '#e0e6ed'}
         />
+        {!title.trim() && (
+          <div style={{
+            backgroundColor: '#fee',
+            color: '#e74c3c',
+            padding: '10px 14px',
+            borderRadius: '6px',
+            marginTop: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '0.9rem',
+            border: '1px solid #f5c6cb'
+          }}>
+            <span>⚠️</span>
+            <span>Error: Title cannot be empty.</span>
+          </div>
+        )}
       </div>
       
       <div style={{ marginBottom: '20px' }}>
@@ -79,23 +94,6 @@ function NoteForm({ onAddNote }) {
           onBlur={(e) => e.target.style.borderColor = '#e0e6ed'}
         />
       </div>
-      
-      {error && (
-        <div style={{
-          backgroundColor: '#fee',
-          color: '#e74c3c',
-          padding: '12px 16px',
-          borderRadius: '8px',
-          marginBottom: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          fontSize: '0.95rem'
-        }}>
-          <span>⚠️</span>
-          <span>{error}</span>
-        </div>
-      )}
       
       <button 
         type="submit"
